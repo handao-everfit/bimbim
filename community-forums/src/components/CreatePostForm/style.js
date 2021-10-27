@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
-export const PostContainer = styled.div`
+export const CreatePostForm = styled.div`
   width: 598px;
+  height: 142px;
   border-radius: 8px;
   background-color: white;
   filter: drop-shadow(0 2px 4px 0 15% #2a2a34);
@@ -17,9 +18,10 @@ export const AuthorAvatar = styled.img.attrs((props) => ({
   border-radius: 50%;
 `;
 
-export const PostHeader = styled.div`
-  display: flex;
-  flex-direction: row;
-  /* justify-content: space-evenly; */
-  align-items: center;
+export const WriteSomethingField = styled.input`
+  width: 509px;
+  height: 44px;
+  border-radius: 12px;
+  background-color: #e9ecf2;
+  border: none;
 `;
