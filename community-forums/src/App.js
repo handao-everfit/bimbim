@@ -1,44 +1,58 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-import Post from "./components/Post/component";
+import PostList from "./components/PostList/component";
 import ForumHeader from "./components/ForumHeader/component";
 import CreatePostForm from "./components/CreatePostForm/component";
 import "semantic-ui-css/semantic.min.css";
+import { connect } from "react-redux";
+import { getPosts } from "./store/actions/postActions";
 
-const instance = axios.create({
-  baseURL: "https://api-dev.everfit.io/api",
-  headers: {
-    "Content-Type": "application/json",
-    "x-access-token":
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9maWxlSWQiOiI2MDdkMDljNTFmYjFjMjAwMWE1NWU4ZGEiLCJ0ZWFtSWQiOiI2MDdkMDlkODFmYjFjMjAwMWE1NWU4ZGUiLCJpc190cmFpbmVyIjp0cnVlLCJ0ZWFtUm9sZSI6MCwidGVhbVBlcm1pc3Npb24iOnsiYXV0b2Zsb3ciOnRydWUsImF1dG9mbG93X2ludGVydmFsIjp0cnVlLCJwcm9ncmFtIjp0cnVlLCJmb29kX2pvdXJuYWwiOnRydWUsIm1hY3JvIjp0cnVlLCJzZWdtZW50Ijp0cnVlLCJkaWdlc3RfZW1haWwiOnRydWUsInRlYW0iOnRydWUsImJyYW5kaW5nIjp0cnVlLCJjdXN0b21fbWV0cmljcyI6dHJ1ZSwiYXNzaWdubWVudF9zY2hlZHVsaW5nIjotMSwic3R1ZGlvX3Jlc291cmNlX2NvbGxlY3Rpb24iOnRydWUsInN0dWRpb19wcm9ncmFtIjp0cnVlLCJub19jbGllbnRzIjoxNTAsIm1hc3NfY29weSI6dHJ1ZSwiYnVsa19pbnZpdGVfY2xpZW50cyI6dHJ1ZSwiZm9ydW0iOnRydWUsImxlYWRlcmJvYXJkIjp0cnVlLCJyZXBlYXRfdGFzayI6dHJ1ZSwicmVwZWF0X3Rhc2tfYXV0b2Zsb3ciOnRydWUsIm11bHRpcGxlX3N0dWRpb19wcm9ncmFtIjp0cnVlLCJwYXltZW50Ijp0cnVlLCJwcmVtaXVtQ3VzdG9tQnJhbmQiOnRydWV9LCJpYXQiOjE2MzUyNzc0OTcsImV4cCI6MTYzNTMyNzQ5N30.dsIKt5WBlZ5VMlqc4uD_F06M2dWR3sBJUKznl3ej1dg",
-    // "x-access-token": `${process.env.REACT_APP_ACCESS_TOKEN}`,
-  },
-});
+// axios
+//   .post("https://api-dev.everfit.io/api/auth/login", {
+//     email: "hungle@everfit.io",
+//     password: "Pass1234",
+//   })
+//   .then((res) => {
+//     instance.defaults.headers["x-access-token"] = res.data.token;
+//   })
+//   .catch((err) => console.log("login error", err));
 
-function App() {
-  const [posts, setPosts] = useState([]);
+function App(props) {
+  // const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     // instance.get(`/forum/get-list-group`).then((res) => {
     //   console.log(res.data);
-    // });
-    instance
-      .get(
-        `/forum-post/get-list-post?groupId=60d9b8c643edd200141777d8&perPage=15`
-      )
-      .then((res) => {
-        console.log(res.data);
-        setPosts(res.data.data);
-      })
-      .catch((err) => console.error(err));
+
+    // instance
+    //   .get(
+    //     `/forum-post/get-list-post?groupId=60d9b8c643edd200141777d8&perPage=15`
+    //   )
+    //   .then((res) => {
+    //     console.log(res.data);
+    //     setPosts(res.data.data);
+    //   })
+    //   .catch((err) => console.error(err));
+    props.getPosts();
   }, []);
   return (
     <div className="App" style={{ backgroundColor: "#E5E5E5" }}>
       <ForumHeader />
       <CreatePostForm />
-      {posts && posts.map((post) => <Post data={post} id={post["_id"]} />)}
+      <PostList posts={props.posts} />
     </div>
   );
 }
 
-export default App;
+const mapStateToProps = (state, action) => {
+  return {
+    posts: state.post.posts,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getPosts: () => dispatch(getPosts()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

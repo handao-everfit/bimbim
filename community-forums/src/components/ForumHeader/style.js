@@ -6,6 +6,7 @@ export const ForumHeader = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 20px;
 `;
 
 export const ForumBanner = styled.img.attrs((props) => ({

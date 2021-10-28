@@ -6,6 +6,7 @@ export const PostContainer = styled.div`
   background-color: white;
   filter: drop-shadow(0 2px 4px 0 15% #2a2a34);
   margin: 20px 19px 0 230px;
+  padding: 15px;
 `;
 
 export const AuthorAvatar = styled.img.attrs((props) => ({
@@ -22,4 +23,23 @@ export const PostHeader = styled.div`
   flex-direction: row;
   /* justify-content: space-evenly; */
   align-items: center;
+`;
+
+export const AuthorNameContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  & > * {
+    margin: 0 10px;
+  }
+`;
+
+export const PostStatsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  & > * {
+    margin: 0 10px;
+  }
 `;
